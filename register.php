@@ -1,25 +1,21 @@
 <?php
 
- session_start();
- session_destroy();
- session_start();
- 
-if(isset($_GET["regname"]))
+require './include/config.php';
+
+session_start();
+
+if(isset($_POST["regname"]))
 {
-	$password = isset($_GET["regpass1"]) ? $_GET["regpass1"] : '';
-	$password_confirm = isset($_GET["regpass2"]) ? $_GET["regpass2"] : '';
-	$regname =  isset($_GET["regname"]) ? $_GET["regname"] : '';
-	$regemail =  isset($_GET["regemail"]) ? $_GET["regemail"] : '';
+	$password = isset($_POST["regpass1"]) ? $_POST["regpass1"] : '';
+	$password_confirm = isset($_POST["regpass2"]) ? $_POST["regpass2"] : '';
+	$regname =  isset($_POST["regname"]) ? $_POST["regname"] : '';
+	$regemail =  isset($_POST["regemail"]) ? $_POST["regemail"] : '';
 
 	if($password == $password_confirm)
 	{
 
-		$conn=  mysql_connect("localhost", "root")or die(mysql_error());
-		mysql_select_db("test",$conn);
-		
-		$sql="insert into users (name,email,password)values('$regname','$regemail','$password')";
-		$result=mysql_query($sql,$conn) or die(mysql_error());		
-		
+		$sql = "insert into users SET name='$regname', email='$regemail',password='$password'";
+		$result = mysql_query($sql) or die(mysql_error());
 		print "<h1>you have registered sucessfully</h1>";
 		print "<a href='index.php'>go to login page</a>";
 	}
@@ -30,6 +26,37 @@ if(isset($_GET["regname"]))
 }
 else
 {
-	print "invaild input data";
+
+?>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>register</title>
+</head>
+<body  bgcolor="black"    style="color:white;">
+<FORM ACTION="register.php" METHOD=POST>
+<h1>welcome to the registration page</h1>
+please input the registration details to create an account here<br>
+<table border="2">
+<tr>
+<td>User Name :</td><td><input name="regname" type="text" size"20"></input></td>
+</tr>
+<tr>
+<td>email :</td><td><input name="regemail" type="text" size"20"></input></td>
+</tr>
+<tr>
+<td>password :</td><td><input name="regpass1" type="password" size"20"></input></td>
+</tr>
+<tr>
+<td>retype password :</td><td><input name="regpass2" type="password" size"20"></input></td>
+</tr>
+</table>
+ <input type="submit" value="register me!"></input>
+</FORM>
+</body>
+</html>
+
+<?php
+
 }
-// dones
