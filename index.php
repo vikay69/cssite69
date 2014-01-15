@@ -1,7 +1,10 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+﻿<?php
+
+require './include/config.php';
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-
 <html lang="bg" xml:lang="bg" xmlns="http://www.w3.org/1999/xhtml">
 	     <head>
 		     <title>Magma-cs.inFo :: Ела и се разгорещи!</title>
@@ -25,47 +28,26 @@
 		 <body>
 		 <div id="content">
 		    <div class="border">
-			     <!-- na4alo na login forma -->
 
-				     <form method="get" action="index.php">
+<!-- login form -->
+
+<?php
 
 
-
-					<?php
-session_start();
-if( isset($_SESSION["logging"]) or isset($_SESSION["logged"]))
+if( isset($_SESSION["username"]))
 {
      print_secure_content();
 }
-else {
-    if(!isset($_SESSION["logging"]))
-    {
-    $_SESSION["logging"]=true;
-    loginform();
-    }
-       else if($_SESSION["logging"])
-       {
-         $number_of_rows=checkpass();
-         if($number_of_rows==1)
-            {
-
-			die('here');
-	         $_SESSION["user"]=$_GET["username"];
-	         $_SESSION["logged"]=true;
-	         print"<h1>you have logged in successfully</h1>";
-	         print_secure_content();
-            }
-            else{
-               	print "Wrong username or password, please try again";
-                loginform();
-            }
-        }
-     }
-     function loginform()
+else
 {
-print ("<div class='login'>Вашето име: <input type='text' maxlength='19' class='inputlogin' name='nickname' /></div>
+    loginform();
+}
+
+function loginform()
+{
+    print ("<form action=login.php method=post><div class='login'>Вашето име: <input type='text' maxlength='19' class='inputlogin' name='username' /></div>
 		<div class='login2'>Вашата парола: <input type='password'  class='inputlogin' maxlength='17' name='password' /></div>");
-print "<input type='submit' value='Влез!' id='login' />";
+    print "<input type='submit' value='Влез!' id='login' /></form>";
 }
 
 
@@ -89,7 +71,7 @@ function print_secure_content()
 
 }
 ?>
-</form>
+
 					 <a href="#"><div class="forgot">Забравена парола?</div></a>
 					 <a href="register.php"><div class="registration">Регистрация!</div></a>
 
